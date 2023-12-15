@@ -1,9 +1,9 @@
-import os
+import os, sys
 from subprocess import run
 from pathlib import Path
 from . import cc
 from .depinfo import Depinfo
-from .link_lookup import link_lookup
+from pycdb.link import link_lookup
 
 ccc = cc.clang
 #ccc = cc.gcc
@@ -18,7 +18,7 @@ def build_cmd(proj, depinfo, obj, test, rebuild):
 	else:
 		cmd += ["-fPIE"]
 	for c in depinfo.cfiles:
-		cmd.append(str(Path(f"src/{c}").resolve()))
+		cmd.append(str(c))
 	if test:
 		cmd.append("src/test.c")
 	cmd += ["-o", str(obj)]
@@ -29,7 +29,7 @@ def build_cmd(proj, depinfo, obj, test, rebuild):
 		if not sopath.is_file():
 			continue
 		cmd.append(str(sopath))
-	for c in depinfo.sysdeps:
+	for c in depinfo.systems:
 		links += link_lookup(c)
 	cmd += list(set(links))
 	return cmd
