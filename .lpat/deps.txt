@@ -1,3 +1,2 @@
 pycdb
-cc3py
-c3cpy
+cccpy
