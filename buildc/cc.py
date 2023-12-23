@@ -38,3 +38,6 @@ def clang():
 		"-Wno-declaration-after-statement",
 	]
 	return cmd
+
+cc = clang
+# cc = cc.gcc

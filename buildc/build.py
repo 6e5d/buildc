@@ -1,16 +1,13 @@
 import os, sys
 from subprocess import run
 from pathlib import Path
-from . import cc
+from .cc import cc
 from .depinfo import Depinfo
 from pycdb.link import link_lookup
 
-ccc = cc.clang
-#ccc = cc.gcc
-
 def build_cmd(proj, depinfo, obj, test, rebuild):
 	Path("build").mkdir(exist_ok = True)
-	cmd = ccc()
+	cmd = cc()
 	name = proj.name
 	# order is important
 	if obj.suffix == ".so":
