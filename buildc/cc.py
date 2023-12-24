@@ -36,6 +36,8 @@ def clang():
 		"-Wno-missing-noreturn",
 		# c99
 		"-Wno-declaration-after-statement",
+		# syntax related
+		"-Wno-logical-op-parentheses",
 	]
 	return cmd
 
