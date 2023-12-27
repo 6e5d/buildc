@@ -21,12 +21,14 @@ def include_resolver(file):
 
 class Depinfo:
 	def __init__(self):
-		self.objs = [False, False, False] # main lib test
+		# original
 		self.cfiles = set()
 		self.systems = set()
 		self.relatives = set()
+		# processed
 		self.deps = set()
-
+		self.links = set()
+		self.objs = [False, False, False] # main lib test
 	# build include info
 	def b1(self, proj):
 		files = []
@@ -56,8 +58,10 @@ class Depinfo:
 			if p == proj:
 				continue
 			self.deps.add(p.resolve())
+		for c in self.systems:
+			self.links += link_lookup(c)
 	# build objects
-	def b4(self, proj):
+	def b3(self, proj):
 		src = proj / "src"
 		if (src / "main.c").exists():
 			self.objs[0] = True
@@ -68,4 +72,4 @@ class Depinfo:
 	def build(self, proj):
 		self.b1(proj)
 		self.b2(proj)
-		self.b4(proj)
+		self.b3(proj)

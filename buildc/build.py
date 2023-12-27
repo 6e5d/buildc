@@ -4,6 +4,21 @@ from pathlib import Path
 from .cc import cc
 from .depinfo import Depinfo
 from pycdb.link import link_lookup
+from gid import path2gid, gid2c
+
+def nsdef(proj):
+	gid = path2gid(proj)
+	name = gid[-1]
+	camel = gid2c(gid, "camel")
+	snake = gid2c(gid, "snake")
+	return name, camel, snake
+
+def nsmacro(proj):
+	name, camel, snake = nsdef(proj)
+	return [
+		f"-D{name}(sym)={snake}_##sym",
+		f"-D{name.capitalize()}(sym)={camel}##sym",
+	]
 
 def build_cmd(proj, depinfo, obj, test, rebuild):
 	Path("build").mkdir(exist_ok = True)
@@ -20,15 +35,15 @@ def build_cmd(proj, depinfo, obj, test, rebuild):
 		cmd.append("src/test.c")
 	cmd += ["-o", str(obj)]
 	links = []
+	cmd += nsmacro(proj)
 	for dep in depinfo.deps:
+		cmd += nsmacro(dep)
 		sopath = dep / "build" / f"lib{dep.name}.so"
 		# test if sopath is real library(or virtual)
 		if not sopath.is_file():
 			continue
 		cmd.append(str(sopath))
-	for c in depinfo.systems:
-		links += link_lookup(c)
-	cmd += list(set(links))
+	cmd += list(depinfo.links)
 	return cmd
 
 def runner(cmd):
