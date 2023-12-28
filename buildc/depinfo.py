@@ -1,5 +1,6 @@
 from pathlib import Path
 from pycdb.header import system_header
+from pycdb.link import link_lookup
 
 def include_resolver(file):
 	base = Path(file).parent
@@ -27,7 +28,7 @@ class Depinfo:
 		self.relatives = set()
 		# processed
 		self.deps = set()
-		self.links = set()
+		self.links = []
 		self.objs = [False, False, False] # main lib test
 	# build include info
 	def b1(self, proj):

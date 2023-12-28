@@ -23,6 +23,10 @@ def nsmacro(proj):
 def build_cmd(proj, depinfo, obj, test, rebuild):
 	Path("build").mkdir(exist_ok = True)
 	cmd = cc()
+	cmd += ["-include", "assert.h"]
+	cmd += ["-include", "stdlib.h"]
+	cmd += ["-include", "stdio.h"]
+	cmd += ["-include", "string.h"]
 	name = proj.name
 	# order is important
 	if obj.suffix == ".so":

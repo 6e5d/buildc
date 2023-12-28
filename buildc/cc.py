@@ -1,11 +1,7 @@
 def common():
 	return ["-O3",
 		"--std=c2x", "-D", "_POSIX_C_SOURCE=200809L",
-		"-include", "assert.h",
 		"-include", "stddef.h",
-		"-include", "stdio.h",
-		"-include", "stdlib.h",
-		"-include", "string.h",
 		"-include", "stdbool.h",
 		"-include", "stdint.h",
 		# warning should block, or mtime gets skipped in second build
@@ -36,8 +32,9 @@ def clang():
 		"-Wno-missing-noreturn",
 		# c99
 		"-Wno-declaration-after-statement",
-		# syntax related
+		# style related warning are useless for generated code
 		"-Wno-logical-op-parentheses",
+		"-Wno-shift-op-parentheses",
 	]
 	return cmd
 
