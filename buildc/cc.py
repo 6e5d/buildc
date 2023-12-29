@@ -35,6 +35,7 @@ def clang():
 		# style related warning are useless for generated code
 		"-Wno-logical-op-parentheses",
 		"-Wno-shift-op-parentheses",
+		"-Wno-redundant-parens",
 	]
 	return cmd
 
