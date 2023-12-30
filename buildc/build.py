@@ -44,7 +44,10 @@ def runner(cmd):
 def convert_objs(p, v):
 	name = p.name
 	if (p / f"include").is_dir():
-		shutil.copyfile(p / f"include/{name}.h", p / f"build/{name}.h")
+		data = open(p / f"include/{name}.h").read()
+		with open(p / f"build/{name}.h", "w") as f:
+			print("#pragma once", file = f)
+			print(data, file = f)
 	if v.objs[0]:
 		file = p / f"build/{name}.elf"
 		v.objs[0] = file
