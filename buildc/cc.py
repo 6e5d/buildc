@@ -37,6 +37,7 @@ def clang():
 		"-Wno-logical-op-parentheses",
 		"-Wno-shift-op-parentheses",
 		"-Wno-redundant-parens",
+		"-Wno-parentheses",
 		# qualifier is shit
 		"-Wno-incompatible-pointer-types-discards-qualifiers",
 		"-Wno-incompatible-function-pointer-types-strict",
